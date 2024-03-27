@@ -1,0 +1,63 @@
+{
+  "name": "fhp",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "./fhp/src",
+  "targets": {
+    "build": {
+      "executor": "@analogjs/platform:vite",
+      "outputs": [
+        "{options.outputPath}",
+        "{workspaceRoot}/dist/fhp/.nitro",
+        "{workspaceRoot}/dist/fhp/ssr",
+        "{workspaceRoot}/dist/fhp/analog"
+      ],
+      "options": {
+        "main": "fhp/src/main.ts",
+        "configFile": "fhp/vite.config.ts",
+        "outputPath": "dist/fhp/client",
+        "tsConfig": "fhp/tsconfig.app.json"
+      },
+      "defaultConfiguration": "production",
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "sourcemap": false,
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@analogjs/platform:vite-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "fhp:build",
+        "port": 4200
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "fhp:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "fhp:build:production"
+        }
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "fhp:build"
+      }
+    },
+    "test": {
+      "executor": "@analogjs/platform:vitest",
+      "outputs": [
+        "{projectRoot}/coverage"
+      ]
+    }
+  },
+  "tags": []
+}
